@@ -1,5 +1,6 @@
 package evaluator;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class MathExpressionEvaluator
@@ -72,7 +73,14 @@ public class MathExpressionEvaluator
     {
         char operand = operatorStack.pop();
         double operatorA = operandStack.pop();
-        double operatorB = operandStack.pop();
+        double operatorB;
+        try {
+            operatorB = operandStack.pop();
+        } catch(EmptyStackException e) {
+            if(operand == '-')
+                operandStack.push(-1.0 * operatorA);
+            return;
+        }
         
         switch (operand)
         {
