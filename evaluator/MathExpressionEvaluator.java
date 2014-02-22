@@ -72,6 +72,14 @@ public class MathExpressionEvaluator
     {
         char operand = operatorStack.pop();
         double operatorA = operandStack.pop();
+        
+        if (operandStack.empty())
+        {
+          if (operand == '-')
+            operandStack.push(-operatorA);
+          return;
+        }
+        
         double operatorB = operandStack.pop();
         
         switch (operand)
