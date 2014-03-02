@@ -73,7 +73,7 @@ public class MathExpressionEvaluator
     char operand = operatorStack.pop();
     double operatorA = operandStack.pop();
     
-    if (operandStack.empty())
+    if (operandStack.isEmpty())
     {
       if (operand == '-')
         operandStack.push(-operatorA);
