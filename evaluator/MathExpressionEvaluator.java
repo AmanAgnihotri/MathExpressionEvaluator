@@ -71,36 +71,36 @@ public class MathExpressionEvaluator
       || operator == '/';
   }
 
-  private static void processAnOperator(LinkedList<Double> operandStack,
-                                        LinkedList<Character> operatorStack)
+  private static void processAnOperator(LinkedList<Double> operands,
+                                        LinkedList<Character> operators)
   {
-    char operand = operatorStack.pop();
-    double operatorA = operandStack.pop();
+    char operator = operators.pop();
+    double operandA = operands.pop();
 
-    if (operandStack.isEmpty())
+    if (operands.isEmpty())
     {
-      if (operand == '-')
+      if (operator == '-')
       {
-        operandStack.push(-operatorA);
+        operands.push(-operandA);
       }
       return;
     }
 
-    double operatorB = operandStack.pop();
+    double operandB = operands.pop();
 
-    switch (operand)
+    switch (operator)
     {
       case '+':
-        operandStack.push(operatorB + operatorA);
+        operands.push(operandB + operandA);
         break;
       case '-':
-        operandStack.push(operatorB - operatorA);
+        operands.push(operandB - operandA);
         break;
       case '*':
-        operandStack.push(operatorB * operatorA);
+        operands.push(operandB * operandA);
         break;
       case '/':
-        operandStack.push(operatorB / operatorA);
+        operands.push(operandB / operandA);
         break;
     }
   }
@@ -108,13 +108,13 @@ public class MathExpressionEvaluator
   private static String insertBlanks(String s)
   {
     StringBuilder result = new StringBuilder();
-    for (int i = 0; i < s.length(); i++)
+    for (int i = 0; i < s.length(); ++i)
     {
       char c = s.charAt(i);
 
       if (c == '(' || c == ')' || c == '+' || c == '-' || c == '*' || c == '/')
       {
-        result.append(" ").append(c).append(" ");
+        result.append(' ').append(c).append(' ');
       }
       else
       {
