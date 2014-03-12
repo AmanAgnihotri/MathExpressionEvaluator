@@ -11,5 +11,6 @@ public class MathExpressionEvaluatorTest
   public void testEvaluateExpression() throws Exception
   {
     assertEquals(3.0, evaluateExpression("-4 + 3 + (2 * 2)"));
+    assertEquals(11.0, evaluateExpression("4 + 3 + (2 * 2)"));
   }
 }
