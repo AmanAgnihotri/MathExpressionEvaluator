@@ -19,44 +19,42 @@ public class MathExpressionEvaluator
       {
         continue;
       }
+
+      char ch = token.charAt(0);
+      if (ch == '+' || ch == '-')
+      {
+        while (!operatorStack.isEmpty()
+          && isValidOperator(operatorStack.peek()))
+        {
+          processAnOperator(operandStack, operatorStack);
+        }
+
+        operatorStack.push(ch);
+      }
+      else if (ch == '*' || ch == '/')
+      {
+        while (!operatorStack.isEmpty()
+          && (operatorStack.peek() == '*' || operatorStack.peek() == '/'))
+        {
+          processAnOperator(operandStack, operatorStack);
+        }
+        operatorStack.push(ch);
+      }
+      else if (ch == '(')
+      {
+        operatorStack.push('(');
+      }
+      else if (ch == ')')
+      {
+        while (operatorStack.peek() != '(')
+        {
+          processAnOperator(operandStack, operatorStack);
+        }
+        operatorStack.pop();
+      }
       else
       {
-        double ch = token.charAt(0);
-        if (ch == '+' || ch == '-')
-        {
-          while (!operatorStack.isEmpty()
-            && isValidOperator(operatorStack.peek()))
-          {
-            processAnOperator(operandStack, operatorStack);
-          }
-
-          operatorStack.push(ch);
-        }
-        else if (ch == '*' || ch == '/')
-        {
-          while (!operatorStack.isEmpty()
-            && (operatorStack.peek() == '*' || operatorStack.peek() == '/'))
-          {
-            processAnOperator(operandStack, operatorStack);
-          }
-          operatorStack.push(ch);
-        }
-        else if (ch == '(')
-        {
-          operatorStack.push('(');
-        }
-        else if (ch == ')')
-        {
-          while (operatorStack.peek() != '(')
-          {
-            processAnOperator(operandStack, operatorStack);
-          }
-          operatorStack.pop();
-        }
-        else
-        {
-          operandStack.push(new Double(token));
-        }
+        operandStack.push(new Double(token));
       }
     }
 
