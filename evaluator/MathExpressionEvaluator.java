@@ -1,13 +1,13 @@
 package evaluator;
 
-import java.util.Stack;
+import java.util.LinkedList;
 
 public class MathExpressionEvaluator
 {
   public static double evaluateExpression(String expression)
   {
-    Stack<Double> operandStack = new Stack<Double>();
-    Stack<Character> operatorStack = new Stack<Character>();
+    LinkedList<Double> operands = new LinkedList<Double>();
+    LinkedList<Character> operators = new LinkedList<Character>();
 
     expression = insertBlanks(expression);
 
@@ -23,46 +23,46 @@ public class MathExpressionEvaluator
       char ch = token.charAt(0);
       if (ch == '+' || ch == '-')
       {
-        while (!operatorStack.isEmpty()
-          && isValidOperator(operatorStack.peek()))
+        while (!operators.isEmpty()
+          && isValidOperator(operators.peek()))
         {
-          processAnOperator(operandStack, operatorStack);
+          processAnOperator(operands, operators);
         }
 
-        operatorStack.push(ch);
+        operators.push(ch);
       }
       else if (ch == '*' || ch == '/')
       {
-        while (!operatorStack.isEmpty()
-          && (operatorStack.peek() == '*' || operatorStack.peek() == '/'))
+        while (!operators.isEmpty()
+          && (operators.peek() == '*' || operators.peek() == '/'))
         {
-          processAnOperator(operandStack, operatorStack);
+          processAnOperator(operands, operators);
         }
-        operatorStack.push(ch);
+        operators.push(ch);
       }
       else if (ch == '(')
       {
-        operatorStack.push('(');
+        operators.push('(');
       }
       else if (ch == ')')
       {
-        while (operatorStack.peek() != '(')
+        while (operators.peek() != '(')
         {
-          processAnOperator(operandStack, operatorStack);
+          processAnOperator(operands, operators);
         }
-        operatorStack.pop();
+        operators.pop();
       }
       else
       {
-        operandStack.push(new Double(token));
+        operands.push(new Double(token));
       }
     }
 
-    while (!operatorStack.isEmpty())
+    while (!operators.isEmpty())
     {
-      processAnOperator(operandStack, operatorStack);
+      processAnOperator(operands, operators);
     }
-    return operandStack.pop();
+    return operands.pop();
   }
 
   private static boolean isValidOperator(char operator)
@@ -71,8 +71,8 @@ public class MathExpressionEvaluator
       || operator == '/';
   }
 
-  private static void processAnOperator(Stack<Double> operandStack,
-                                        Stack<Character> operatorStack)
+  private static void processAnOperator(LinkedList<Double> operandStack,
+                                        LinkedList<Character> operatorStack)
   {
     char operand = operatorStack.pop();
     double operatorA = operandStack.pop();
